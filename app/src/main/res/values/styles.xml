@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--No action bar-->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--Splash Theme-->
+    <style name="AppTheme.NoActionBar.Launcher">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@color/colorTransparent</item>
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
+    </style>
+
+    <!--Dialog Animation-->
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/scale_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_out</item>
+    </style>
+
+    <!--Dialog Style-->
+    <style name="DialogStyle" parent="Base.Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowMinWidthMajor">87%</item>
+        <item name="android:windowMinWidthMinor">87%</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>

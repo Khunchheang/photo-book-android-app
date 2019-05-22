@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_radius">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_6x"
+        android:layout_marginTop="@dimen/margin_5x"
+        android:layout_marginEnd="@dimen/margin_6x"
+        android:text="@string/app_name"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/text_medium_20"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_6x"
+        android:layout_marginTop="@dimen/margin_5x"
+        android:layout_marginEnd="@dimen/margin_6x"
+        android:layout_marginBottom="@dimen/margin_4x"
+        android:lineSpacingExtra="6dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/text_small_16"
+        app:layout_constraintBottom_toTopOf="@+id/btn_negative"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_title" />
+
+    <TextView
+        android:id="@+id/btn_negative"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_2x"
+        android:layout_marginBottom="@dimen/margin_2x"
+        android:gravity="center"
+        android:text="@string/no"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_positive" />
+
+    <TextView
+        android:id="@+id/btn_positive"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_5x"
+        android:layout_marginBottom="@dimen/margin_2x"
+        android:text="@string/yes"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

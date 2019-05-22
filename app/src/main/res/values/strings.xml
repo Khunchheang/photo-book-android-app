@@ -1,0 +1,26 @@
+<resources>
+    <!--Server message-->
+    <string name="cannot_connect_server">Sorry! we cannot connect to server right now. Please try again in 5 minutes.</string>
+    <string name="unauthorized_request">Sorry! the request was not authorized. Please sign in again.</string>
+    <string name="pls_check_internet">Please check your internet connection.</string>
+    <string name="connection_timeout">Connection timeout</string>
+    <string name="problem_occur">Problem occurred</string>
+
+    <!--Dialog-->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+    <string name="tab_to_retry">Tab to retry</string>
+    <string name="loading">Loading…</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!--Loading-->
+    <string name="no_more_result">No more photos</string>
+
+    <!--Main activity title-->
+    <string name="title_home">Home</string>
+    <string name="title_bookmark">Bookmark</string>
+    <string name="title_about">About</string>
+
+</resources>

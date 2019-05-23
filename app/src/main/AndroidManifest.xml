@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.khunchheang.photobookmark">
+    package="com.khunchheang.photobook">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".app.AppApplication"
+        android:name="com.khunchheang.photobook.app.AppApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.mvp.mainactivity.MainActivity"
+            android:name="com.khunchheang.photobook.ui.mvp.mainactivity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Launcher">
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.mvp.photodetail.PhotoDetailActivity"
+            android:name="com.khunchheang.photobook.ui.mvp.photodetail.PhotoDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
     </application>

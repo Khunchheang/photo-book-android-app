@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.khunchheang.photobookmark.ui.mvp.photodetail.PhotoDetailActivity">
+    tools:context="com.khunchheang.photobook.ui.mvp.photodetail.PhotoDetailActivity">
 
     <ImageView
         android:id="@+id/img_full"

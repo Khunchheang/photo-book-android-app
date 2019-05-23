@@ -11,20 +11,20 @@ android {
         release {
             keyAlias 'release'
             keyPassword 'photobookmarkaliasrelease@2019'
-            storeFile file('photobookmarkrelease.jks')
+            storeFile file('photobookrelease.jks')
             storePassword 'photobookmarkrelease@2019'
         }
         debug {
             keyAlias 'debug'
             keyPassword 'photobookmarkaliasdebug@2019'
-            storeFile file('photobookmarkdebug.jks')
+            storeFile file('photobookdebug.jks')
             storePassword 'photobookmarkdebug@2019'
         }
     }
 
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.khunchheang.photobookmark"
+        applicationId "com.khunchheang.photobook"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1

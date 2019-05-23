@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.khunchheang.photobook.ui.mvp.photodetail.PhotoDetailActivity">
 
-    <com.alexvasilkov.gestures.views.GestureImageView
+    <ImageView
         android:id="@+id/img_full"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_4x"
         android:src="@drawable/ic_launcher_background"
-        app:gest_zoomEnabled="false"
         app:layout_constraintBottom_toTopOf="@+id/tv_url"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

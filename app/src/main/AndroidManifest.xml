@@ -29,7 +29,7 @@
         <activity
             android:name="com.khunchheang.photobook.ui.mvp.photodetail.PhotoDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.PhotoDetail" />
     </application>
 
 </manifest>

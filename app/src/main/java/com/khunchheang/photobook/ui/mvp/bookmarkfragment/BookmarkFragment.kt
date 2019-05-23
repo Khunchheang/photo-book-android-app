@@ -2,12 +2,15 @@ package com.khunchheang.photobook.ui.mvp.bookmarkfragment
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.transition.Transition
 import android.view.View
 import com.khunchheang.photobook.R
 import com.khunchheang.photobook.data.local.BookmarkRoomModel
 import com.khunchheang.photobook.ui.adapter.BookmarkRecyclerAdapter
 import com.khunchheang.photobook.ui.animator.SlideInUpAnimator
+import com.khunchheang.photobook.ui.animator.TransitionCallback
 import com.khunchheang.photobook.ui.base.fragment.BaseMvpFragment
 import com.khunchheang.photobook.ui.customview.ItemOffsetDecoration
 import com.khunchheang.photobook.ui.extenstion.startPhotoDetailActivity
@@ -31,6 +34,11 @@ class BookmarkFragment : BaseMvpFragment(), BookmarkFragmentView {
 
     private var isBookmarkRemoving: Boolean = false
     private lateinit var mainActivity: MainActivity
+    private val sharedExitListener = object : TransitionCallback() {
+        override fun onTransitionEnd(transition: Transition) {
+            setExitSharedElementCallback(null)
+        }
+    }
 
     override val layoutResource = R.layout.fragment_bookmark
 
@@ -40,6 +48,7 @@ class BookmarkFragment : BaseMvpFragment(), BookmarkFragmentView {
     }
 
     override fun onCreateViewInflated(inflatedView: View, savedInstanceState: Bundle?) {
+        mainActivity.window.sharedElementExitTransition.addListener(sharedExitListener)
         addBookmarkPre.attach(this)
         getBookmarkPre.attach(this)
 
@@ -103,13 +112,16 @@ class BookmarkFragment : BaseMvpFragment(), BookmarkFragmentView {
                 isBookmarkRemoving = true
                 addBookmarkPre.removePhotoBookmark(pos, itemClicked.photoId.toString())
             } else {
+                val option = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity, view, view.transitionName)
                 startPhotoDetailActivity(
                     mainActivity,
                     itemClicked.photoId!!.toLong(),
                     itemClicked.url!!,
                     true,
                     itemClicked.listUrl!!,
-                    itemClicked.downloadUrl!!
+                    itemClicked.downloadUrl!!,
+                    view.transitionName,
+                    option
                 )
             }
         }

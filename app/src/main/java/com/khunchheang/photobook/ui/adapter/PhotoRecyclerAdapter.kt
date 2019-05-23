@@ -32,13 +32,14 @@ class PhotoRecyclerAdapter : BaseLoadMoreAdapter<PhotoItemResponse, PhotoRecycle
             if (data.isAddedBookmark) R.drawable.ic_bookmark_fill
             else R.drawable.ic_bookmark_border
         )
+
+        holder.itemView.img_photo.transitionName = "transition$position"
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         init {
-            itemView.setOnClickListener { itemClicked?.invoke(it, adapterPosition) }
-
+            itemView.setOnClickListener { itemClicked?.invoke(itemView.img_photo, adapterPosition) }
             itemView.img_bookmark.setOnClickListener { itemClicked?.invoke(it, adapterPosition) }
         }
 

@@ -22,6 +22,9 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.loading_progressbar.view.*
 import javax.inject.Inject
+import android.support.v4.app.ActivityOptionsCompat
+import android.transition.Transition
+import com.khunchheang.photobook.ui.animator.TransitionCallback
 
 class HomeFragment : BaseMvpFragment(), HomeFragmentView {
 
@@ -34,6 +37,11 @@ class HomeFragment : BaseMvpFragment(), HomeFragmentView {
 
     private var removeBookmarkDisposable: Disposable? = null
     private lateinit var mainActivity: MainActivity
+    private val sharedExitListener = object : TransitionCallback() {
+        override fun onTransitionEnd(transition: Transition) {
+            setExitSharedElementCallback(null)
+        }
+    }
 
     override val layoutResource = R.layout.fragment_home
 
@@ -43,12 +51,18 @@ class HomeFragment : BaseMvpFragment(), HomeFragmentView {
     }
 
     override fun onCreateViewInflated(inflatedView: View, savedInstanceState: Bundle?) {
+        mainActivity.window.sharedElementExitTransition.addListener(sharedExitListener)
         photoListPre.attach(this)
         addBookmarkPre.attach(this)
 
         initSwipeRefresh()
         initPhotoList()
         setRxBusRemoveBookmark()
+
+        view!!.btn_retry.setOnClickListener {
+            view!!.btn_retry.visibility = View.GONE
+            photoListPre.getPhotoList()
+        }
     }
 
     override fun showLoading() {
@@ -64,10 +78,11 @@ class HomeFragment : BaseMvpFragment(), HomeFragmentView {
         photoAdapter.isLoading = !NetworkUtil.isNetworkAvailable(context)
         photoAdapter.removeBottomPb()
 
+        if (photoAdapter.offset == 1) view!!.btn_retry.visibility = View.VISIBLE
+
         if (!NetworkUtil.isNetworkAvailable(context)) {
             photoAdapter.isRetry = true
             photoAdapter.enableLoadingBottom()
-            view!!.recycler_photo.smoothScrollToPosition(photoAdapter.itemCount)
         }
 
         view!!.swipe_refresh.isRefreshing = false
@@ -132,13 +147,16 @@ class HomeFragment : BaseMvpFragment(), HomeFragmentView {
                 if (itemClicked.isAddedBookmark) addBookmarkPre.removePhotoBookmark(pos, itemClicked.id)
                 else addBookmarkPre.addPhotoBookmark(pos, itemClicked.id, itemClicked.url, itemClicked.downloadUrl)
             } else {
+                val option = ActivityOptionsCompat.makeSceneTransitionAnimation(mainActivity, view, view.transitionName)
                 startPhotoDetailActivity(
                     mainActivity,
                     itemClicked.id!!.toLong(),
                     itemClicked.url!!,
                     itemClicked.isAddedBookmark,
                     itemClicked.listUrl,
-                    itemClicked.downloadUrl!!
+                    itemClicked.downloadUrl!!,
+                    view.transitionName,
+                    option
                 )
             }
         }

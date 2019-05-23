@@ -1,6 +1,8 @@
 package com.khunchheang.photobook.ui.mvp.photodetail
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.text.SpannableString
@@ -24,10 +26,6 @@ import com.odic.skybooking.ui.base.activity.BaseSupportToolbarActivity
 import kotlinx.android.synthetic.main.activity_photo_detail.*
 import kotlinx.android.synthetic.main.loading_progressbar.*
 import javax.inject.Inject
-import android.content.Intent
-import android.net.Uri
-import android.view.Gravity
-import com.alexvasilkov.gestures.Settings
 
 class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
 
@@ -53,6 +51,8 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
 
         getIntentValue()
         title = "${getString(R.string.photo_id)} $photoId"
+
+        img_full.transitionName = intent.getStringExtra(TRANSITION_NAME)
 
         loadImage()
         setTextUrl()
@@ -169,21 +169,6 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
             ): Boolean {
                 progressBar.visibility = View.GONE
                 img_full.setImageDrawable(resource)
-
-                img_full.controller.settings
-                    .setMaxZoom(5f)
-                    .setDoubleTapZoom(-1f) // Falls back to max zoom level
-                    .setPanEnabled(true)
-                    .setDoubleTapZoom(1f)
-                    .setZoomEnabled(true)
-                    .setDoubleTapEnabled(true)
-                    .setRotationEnabled(false)
-                    .setRestrictRotation(false)
-                    .setOverscrollDistance(0f, 0f)
-                    .setOverzoomFactor(2f)
-                    .setFillViewport(false)
-                    .setFitMethod(Settings.Fit.INSIDE).gravity = Gravity.CENTER
-
                 return true
             }
         }
@@ -195,5 +180,6 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
         const val URL = "url"
         const val IS_ADDED_BOOKMARK = "is_added_bookmark"
         const val DOWNLOAD_URL = "download_url"
+        const val TRANSITION_NAME = "transition_name"
     }
 }

@@ -135,7 +135,6 @@ abstract class BaseLoadMoreAdapter<T, VH : RecyclerView.ViewHolder> : RecyclerVi
                 isRetry = false
                 isLoading = false
                 removeBottomPb()
-                recyclerView?.smoothScrollToPosition(itemCount)
                 loadMoreListener?.invoke(offset)
             }
         }

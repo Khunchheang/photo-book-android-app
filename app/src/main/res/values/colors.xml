@@ -12,10 +12,25 @@
     <color name="colorTextRedDark">#FFF4283C</color>
     <color name="colorTextDefault">#767474</color>
     <color name="colorHintDefault">#a8a8a8</color>
+
+    <!--Black-->
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlack5">#0D000000</color>
+    <color name="colorBlack10">#1A000000</color>
+    <color name="colorBlack15">#26000000</color>
+    <color name="colorBlack20">#33000000</color>
+    <color name="colorBlack30">#4D000000</color>
+    <color name="colorBlack40">#66000000</color>
+    <color name="colorBlack70">#B3000000</color>
+    <color name="colorBlack50">#80000000</color>
+    <color name="colorWhite50">#80FFFFFF</color>
+
     <!--Divider color-->
     <color name="colorDivider">#BDBDBD</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorPrimary50">#8076C7F1</color>
+
+    <color name="grey_ripple">#8ddd</color>
 </resources>

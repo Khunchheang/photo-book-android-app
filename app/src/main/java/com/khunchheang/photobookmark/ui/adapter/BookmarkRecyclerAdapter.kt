@@ -7,50 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.khunchheang.photobookmark.R
-import com.khunchheang.photobookmark.data.PhotoItemResponse
-import com.khunchheang.photobookmark.ui.base.adapter.BaseLoadMoreAdapter
+import com.khunchheang.photobookmark.data.local.BookmarkRoomModel
+import com.khunchheang.photobookmark.ui.base.adapter.BaseRecyclerAdapter
 import kotlinx.android.synthetic.main.item_photo.view.*
 
-class PhotoRecyclerAdapter : BaseLoadMoreAdapter<PhotoItemResponse, PhotoRecyclerAdapter.ViewHolder>() {
+class BookmarkRecyclerAdapter : BaseRecyclerAdapter<BookmarkRoomModel, BookmarkRecyclerAdapter.ViewHolder>() {
 
     private var context: Context? = null
 
-    override fun setViewHolder(viewType: Int, parent: ViewGroup): RecyclerView.ViewHolder {
+    override fun setViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (context == null) context = parent.context
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_photo, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindData(holder: ViewHolder, data: PhotoItemResponse, position: Int) {
+    override fun onBindData(holder: ViewHolder, data: BookmarkRoomModel, position: Int) {
         Glide.with(context!!)
             .load(data.listUrl)
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_placeholder)
             .into(holder.itemView.img_photo)
-
-        holder.itemView.img_bookmark.setImageResource(
-            if (data.isAddedBookmark) R.drawable.ic_bookmark_fill
-            else R.drawable.ic_bookmark_border
-        )
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         init {
             itemView.setOnClickListener { itemClicked?.invoke(it, adapterPosition) }
 
             itemView.img_bookmark.setOnClickListener { itemClicked?.invoke(it, adapterPosition) }
         }
-
-    }
-
-    internal fun getPositionByPhotoId(photoId: Long): Int? {
-        items.forEachIndexed { index, photoItemResponse ->
-            if (photoItemResponse?.id == photoId.toString()) {
-                photoItemResponse.isAddedBookmark = !photoItemResponse.isAddedBookmark
-                return index
-            }
-        }
-        return null
     }
 }

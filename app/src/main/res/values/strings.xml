@@ -22,5 +22,12 @@
     <string name="title_home">Home</string>
     <string name="title_bookmark">Bookmark</string>
     <string name="title_about">About</string>
+    <string name="sorry_this_photo_cannot_load">Sorry this photo cannot be loaded.</string>
+    <string name="cannot_load_bookmark">Cannot load photo bookmark.</string>
+    <string name="no_bookmark_photo">No bookmark photo</string>
+
+    <!--Photo Detail-->
+    <string name="photo_id">Photo Id:</string>
+    <string name="sorry_cannot_load_this_image">Sorry cannot load this image.</string>
 
 </resources>

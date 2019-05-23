@@ -24,4 +24,6 @@ class PhotoItemResponse {
 
     val listUrl: String
         get() = "https://picsum.photos/id/$id/500/300"
+
+    var isAddedBookmark: Boolean = false
 }

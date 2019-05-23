@@ -7,14 +7,15 @@ import com.khunchheang.photobook.ui.base.basemvp.basepresenterimpl.BaseLocalPres
 class AddBookmarkPresenterImpl(private val addBookmarkInter: AddBookmarkInteractor) :
     BaseLocalPresenterImpl<AddBookmarkView>(), AddBookmarkPresenter {
 
-    override fun addPhotoBookmark(position: Int, photoId: String?, downloadUrl: String?) {
-        if (photoId == null || downloadUrl == null) {
+    override fun addPhotoBookmark(position: Int, photoId: String?, url: String?, downloadUrl: String?) {
+        if (photoId == null || url == null || downloadUrl == null) {
             view?.onPhotoIdError(R.string.sorry_this_photo_cannot_load)
             return
         }
 
         val bookmarkRoomModel = BookmarkRoomModel().apply {
             this.photoId = photoId.toLong()
+            this.url = url
             this.listUrl = "https://picsum.photos/id/$photoId/500/300"
             this.downloadUrl = downloadUrl
         }

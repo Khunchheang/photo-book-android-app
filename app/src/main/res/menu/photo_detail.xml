@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/nav_add_bookmark"
-        android:icon="@drawable/ic_bookmark_border_grey"
+        android:icon="@drawable/ic_bookmark_border_white"
         android:title="@string/title_home"
         app:showAsAction="always" />
 

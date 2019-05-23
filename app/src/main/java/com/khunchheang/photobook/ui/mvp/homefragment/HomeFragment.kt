@@ -130,11 +130,12 @@ class HomeFragment : BaseMvpFragment(), HomeFragmentView {
             val itemClicked = photoAdapter.getItem(pos)
             if (view.id == R.id.img_bookmark) {
                 if (itemClicked.isAddedBookmark) addBookmarkPre.removePhotoBookmark(pos, itemClicked.id)
-                else addBookmarkPre.addPhotoBookmark(pos, itemClicked.id, itemClicked.downloadUrl)
+                else addBookmarkPre.addPhotoBookmark(pos, itemClicked.id, itemClicked.url, itemClicked.downloadUrl)
             } else {
                 startPhotoDetailActivity(
                     mainActivity,
                     itemClicked.id!!.toLong(),
+                    itemClicked.url!!,
                     itemClicked.isAddedBookmark,
                     itemClicked.listUrl,
                     itemClicked.downloadUrl!!

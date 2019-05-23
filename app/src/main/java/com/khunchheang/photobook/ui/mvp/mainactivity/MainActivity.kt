@@ -8,6 +8,7 @@ import com.khunchheang.photobook.ui.mvp.bookmarkfragment.BookmarkFragment
 import com.khunchheang.photobook.ui.mvp.homefragment.HomeFragment
 import com.odic.skybooking.ui.base.activity.BaseSupportToolbarActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import javax.inject.Inject
 
 class MainActivity : BaseSupportToolbarActivity() {
@@ -31,6 +32,15 @@ class MainActivity : BaseSupportToolbarActivity() {
         title = getString(R.string.title_home)
 
         initBottomNav()
+    }
+
+    override fun onBackPressed() {
+        if (viewpager.currentItem != HOME_FRAGMENT_INDEX) {
+            viewpager.currentItem = HOME_FRAGMENT_INDEX
+            nav_view.selectedItemId = R.id.nav_home
+        } else {
+            super.onBackPressed()
+        }
     }
 
     private fun initBottomNav() {
@@ -60,6 +70,12 @@ class MainActivity : BaseSupportToolbarActivity() {
                 }
             }
             true
+        }
+
+        nav_view.setOnNavigationItemReselectedListener {
+            if (it.itemId == R.id.nav_home) {
+                homeFragment.view?.recycler_photo?.smoothScrollToPosition(0)
+            }
         }
     }
 

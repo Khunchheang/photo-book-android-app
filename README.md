@@ -9,14 +9,16 @@ View full size image
 Store cache to use when no internet connection
 Save photo of bookmark to local storage
 About just show information about mind.
+Click link in photo detail to visit original side
 
 #Technology
 Dagger for Dependency Injection
 Room for local storage
 Rxjava for pulish event when user add or remove photo from bookmark
-Support material design
+Support material design, and follow material design user experience
 Retrofit to load data from API
 Glide to load image
+User gesture imageview lib to make image can zoom
 
 #Clean architecture
 MVP clean architecture

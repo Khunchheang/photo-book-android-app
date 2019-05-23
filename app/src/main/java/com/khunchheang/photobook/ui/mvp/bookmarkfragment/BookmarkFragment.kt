@@ -106,6 +106,7 @@ class BookmarkFragment : BaseMvpFragment(), BookmarkFragmentView {
                 startPhotoDetailActivity(
                     mainActivity,
                     itemClicked.photoId!!.toLong(),
+                    itemClicked.url!!,
                     true,
                     itemClicked.listUrl!!,
                     itemClicked.downloadUrl!!

@@ -17,6 +17,10 @@ class BookmarkRoomModel {
     var photoId: Long? = null
 
     @NotNull
+    @ColumnInfo(name = "url")
+    var url: String? = null
+
+    @NotNull
     @ColumnInfo(name = "photo_list_url")
     var listUrl: String? = null
 

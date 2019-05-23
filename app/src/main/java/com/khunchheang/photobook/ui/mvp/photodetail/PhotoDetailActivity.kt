@@ -3,9 +3,13 @@ package com.khunchheang.photobook.ui.mvp.photodetail
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.URLSpan
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -20,18 +24,26 @@ import com.odic.skybooking.ui.base.activity.BaseSupportToolbarActivity
 import kotlinx.android.synthetic.main.activity_photo_detail.*
 import kotlinx.android.synthetic.main.loading_progressbar.*
 import javax.inject.Inject
+import android.content.Intent
+import android.net.Uri
+import android.view.Gravity
+import com.alexvasilkov.gestures.Settings
 
 class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
 
     @Inject
     lateinit var addBookmarkPre: AddBookmarkPresenter
+    @Inject
+    lateinit var activityIntent: Intent
 
     private var isAddedBookmark: Boolean = false
     private var photoId: Long? = null
+    private var url: String? = null
     private var photoListUrl: String? = null
     private var downloadUrl: String? = null
     private var menuItem: Menu? = null
     private var imageLoadingListener: RequestListener<Drawable>? = null
+    private var isActivityActive: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +51,12 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
 
         setSupportToolbar()
 
-        photoId = intent.getLongExtra(PHOTO_ID, 0)
+        getIntentValue()
         title = "${getString(R.string.photo_id)} $photoId"
 
-        isAddedBookmark = intent.getBooleanExtra(IS_ADDED_BOOKMARK, false)
-        photoListUrl = intent.getStringExtra(LIST_URL)
-        downloadUrl = intent.getStringExtra(DOWNLOAD_URL)
-
         loadImage()
+        setTextUrl()
+
         addBookmarkPre.attach(this)
     }
 
@@ -54,8 +64,8 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
         menuInflater.inflate(R.menu.photo_detail, menu)
         this.menuItem = menu
         setOptionMenuIcon(
-            if (isAddedBookmark) R.drawable.ic_bookmark_fill_grey
-            else R.drawable.ic_bookmark_border_grey
+            if (isAddedBookmark) R.drawable.ic_bookmark_fill_white
+            else R.drawable.ic_bookmark_border_white
         )
         return super.onCreateOptionsMenu(menu)
     }
@@ -65,7 +75,7 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
             if (isAddedBookmark) {
                 addBookmarkPre.removePhotoBookmark(photoId = photoId.toString())
             } else {
-                addBookmarkPre.addPhotoBookmark(photoId = photoId.toString(), downloadUrl = downloadUrl)
+                addBookmarkPre.addPhotoBookmark(photoId = photoId.toString(), url = url, downloadUrl = downloadUrl)
             }
             return true
         }
@@ -74,18 +84,23 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
 
     override fun onAddBookmarkSuccess(pos: Int) {
         isAddedBookmark = true
-        setOptionMenuIcon(R.drawable.ic_bookmark_fill_grey)
+        setOptionMenuIcon(R.drawable.ic_bookmark_fill_white)
         RxBus.publish(RxEvent.EventRemoveFromBookmark(photoId!!))
     }
 
     override fun onRemoveBookmarkSuccess(pos: Int) {
         isAddedBookmark = false
-        setOptionMenuIcon(R.drawable.ic_bookmark_border_grey)
+        setOptionMenuIcon(R.drawable.ic_bookmark_border_white)
         RxBus.publish(RxEvent.EventRemoveFromBookmark(photoId!!))
     }
 
     override fun onPhotoIdError(msg: Int) {
         showToast(msg)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isActivityActive = false
     }
 
     override fun onDestroy() {
@@ -99,14 +114,35 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
         invalidateOptionsMenu()
     }
 
+    private fun getIntentValue() {
+        photoId = intent.getLongExtra(PHOTO_ID, 0)
+        url = intent.getStringExtra(URL)
+        isAddedBookmark = intent.getBooleanExtra(IS_ADDED_BOOKMARK, false)
+        photoListUrl = intent.getStringExtra(LIST_URL)
+        downloadUrl = intent.getStringExtra(DOWNLOAD_URL)
+    }
+
     private fun loadImage() {
         initImageLoadingListener()
+
         Glide.with(applicationContext)
             .load(downloadUrl)
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_placeholder)
             .listener(imageLoadingListener)
             .into(img_full)
+    }
+
+    private fun setTextUrl() {
+        val spannableString = SpannableString(url)
+        spannableString.setSpan(URLSpan(""), 0, spannableString.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_url.setText(spannableString, TextView.BufferType.SPANNABLE)
+
+        tv_url.setOnClickListener {
+            activityIntent.action = Intent.ACTION_VIEW
+            activityIntent.data = Uri.parse(url)
+            startActivity(activityIntent)
+        }
     }
 
     private fun initImageLoadingListener() {
@@ -118,7 +154,9 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
                 isFirstResource: Boolean
             ): Boolean {
                 progressBar.visibility = View.GONE
-                showDialogMessage(getString(R.string.sorry_cannot_load_this_image)).show(false)
+                if (isActivityActive) {
+                    showDialogMessage(getString(R.string.sorry_cannot_load_this_image)).show(false)
+                }
                 return false
             }
 
@@ -131,6 +169,21 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
             ): Boolean {
                 progressBar.visibility = View.GONE
                 img_full.setImageDrawable(resource)
+
+                img_full.controller.settings
+                    .setMaxZoom(5f)
+                    .setDoubleTapZoom(-1f) // Falls back to max zoom level
+                    .setPanEnabled(true)
+                    .setDoubleTapZoom(1f)
+                    .setZoomEnabled(true)
+                    .setDoubleTapEnabled(true)
+                    .setRotationEnabled(false)
+                    .setRestrictRotation(false)
+                    .setOverscrollDistance(0f, 0f)
+                    .setOverzoomFactor(2f)
+                    .setFillViewport(false)
+                    .setFitMethod(Settings.Fit.INSIDE).gravity = Gravity.CENTER
+
                 return true
             }
         }
@@ -139,6 +192,7 @@ class PhotoDetailActivity : BaseSupportToolbarActivity(), AddBookmarkView {
     companion object {
         const val PHOTO_ID = "photo_id"
         const val LIST_URL = "photo_list_url"
+        const val URL = "url"
         const val IS_ADDED_BOOKMARK = "is_added_bookmark"
         const val DOWNLOAD_URL = "download_url"
     }

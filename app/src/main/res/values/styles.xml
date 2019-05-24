@@ -23,7 +23,6 @@
         <item name="android:windowBackground">@drawable/bg_splash_screen</item>
     </style>
 
-    <!--Photo detail-->
     <!--Room Detail-->
     <style name="AppTheme.PhotoDetail">
         <item name="android:windowSharedElementEnterTransition">@transition/shared_photo_detail</item>
